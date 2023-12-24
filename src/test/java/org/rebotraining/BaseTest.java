@@ -34,7 +34,8 @@ public class BaseTest {
 
 		// Download App Under Test
 		UiAutomator2Options options = new UiAutomator2Options();
-		options.setDeviceName("Rebophone");
+		//options.setDeviceName("Rebophone");	
+		options.setDeviceName("Xiaomi M2006C3MG API 29"); //real device
 		options.setChromedriverExecutable("C:\\Users\\burha\\eclipse-workspace\\AppiumDemo\\chromedriver_win32\\chromedriver.exe");
 		//options.setApp("C:\\Users\\burha\\eclipse-workspace\\AppiumDemo\\ApiDemos-debug.apk");
 		options.setApp("C:\\Users\\burha\\eclipse-workspace\\AppiumDemo\\General-Store.apk");
