@@ -1,4 +1,4 @@
-package org.rebotraining.utils;
+package utils;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -9,20 +9,19 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 
-public class AndroidActions {
-	
+public class AndroidActions extends AppiumUtils{
+
 	AndroidDriver driver;
-	
+
 	public AndroidActions(AndroidDriver driver) {
 		this.driver=driver;
 	}
 
 	public void longPressAction(WebElement ele) {
-		((JavascriptExecutor)driver).executeScript("mobile: longClickGesture", 
+		((JavascriptExecutor)driver).executeScript("mobile: longClickGesture",
 				ImmutableMap.of("elementId", ((RemoteWebElement)ele).getId(), "duration",2000));
 	}
 
-	
 	public void scrollToEndAction() {
 		boolean canScrollMore;
 		do {
@@ -34,12 +33,12 @@ public class AndroidActions {
 		}
 		while(canScrollMore);
 	}
-	
+
 	public void scrollToText(String text) {
 		driver.findElement(
 				AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\""+text+"\"))"));
 	}
-	
+
 	public void swipeAction(WebElement ele, String direction) {
 		((JavascriptExecutor) driver).executeScript("mobile: swipeGesture", ImmutableMap.of(
 			    "elementId", ((RemoteWebElement)ele).getId(),
@@ -47,7 +46,7 @@ public class AndroidActions {
 			    "percent", 0.75
 			));
 	}
-	
+
 	public void dragAndDrop(WebElement ele,int x, int y) {
 		((JavascriptExecutor) driver).executeScript("mobile: dragGesture", ImmutableMap.of(
 			    "elementId", ((RemoteWebElement) ele).getId(),
@@ -55,11 +54,11 @@ public class AndroidActions {
 			    "endY", y
 			));
 	}
-	
+
 	public Double convertStringToDouble(String amount) {
 		Double price = Double.parseDouble(amount.substring(1));
 		return price;
 	}
-	
-	
+
+
 }

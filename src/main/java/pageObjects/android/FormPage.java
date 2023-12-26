@@ -1,12 +1,14 @@
-package org.rebotraining.pageObjects.android;
+package pageObjects.android;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-import org.rebotraining.utils.AndroidActions;
+
+import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import utils.AndroidActions;
 
 public class FormPage extends AndroidActions {
 
@@ -37,6 +39,11 @@ public class FormPage extends AndroidActions {
 		nameField.sendKeys(name);
 		driver.hideKeyboard();
 	}
+
+	public void setActivity() {
+			Activity activity = new Activity("com.androidsample.generalstore", "com.androidsample.generalstore.MainActivity");
+			//driver.startActivity(activity);
+		}
 
 	public void setGender(String gender) {
 		if (gender.contains("female"))
