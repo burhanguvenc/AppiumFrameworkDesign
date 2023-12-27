@@ -1,8 +1,13 @@
 package pageObjects.android;
 
+import java.io.IOException;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.PageFactory;
+import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidDriver;
@@ -40,10 +45,12 @@ public class FormPage extends AndroidActions {
 		driver.hideKeyboard();
 	}
 
+	// adb shell dumpsys window | find "mCurrentFocus"
+	// "com.androidsample.generalstore","com.androidsample.generalstore.MainActivity"
 	public void setActivity() {
-			Activity activity = new Activity("com.androidsample.generalstore", "com.androidsample.generalstore.MainActivity");
-			//driver.startActivity(activity);
-		}
+		Activity activity = new Activity("com.androidsample.generalstore","com.androidsample.generalstore.MainActivity");
+		//driver.startActivity(activity);
+	}
 
 	public void setGender(String gender) {
 		if (gender.contains("female"))

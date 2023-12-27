@@ -1,21 +1,26 @@
 package testCases;
 
+import java.io.IOException;
+
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import io.appium.java_client.AppiumBy;
+import pageObjects.android.FormPage;
 import testUtils.AndroidBaseTest;
 
 public class eCommerce_tc_2 extends AndroidBaseTest{
-
-	@BeforeMethod
-	public void preSetup() {
-		//Screen to homepage
-
-	}
-
+	FormPage formPage;
+	
+	  @BeforeMethod 
+	  public void preSetup() 
+	  { 
+		  //Screen to homepage
+	  formPage.setActivity(); 
+	  }
+	 
 	@Test
 	public void FillForm_ErrorValidation() throws InterruptedException
 	{

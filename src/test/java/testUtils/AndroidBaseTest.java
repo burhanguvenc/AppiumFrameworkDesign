@@ -1,22 +1,15 @@
 package testUtils;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.Duration;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebElement;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.Properties;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-
-import com.google.common.collect.ImmutableMap;
-
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import io.appium.java_client.service.local.AppiumServiceBuilder;
 import utils.AppiumUtils;
 
 public class AndroidBaseTest extends AppiumUtils{
@@ -24,63 +17,30 @@ public class AndroidBaseTest extends AppiumUtils{
 	public AndroidDriver driver;
 	public AppiumDriverLocalService service;
 
-	@BeforeClass
-	public void ConfigureAppium() throws MalformedURLException {
+	@BeforeClass(alwaysRun=true)
+	public void ConfigureAppium() throws IOException {
 
 		// Code to start server service
-
-		  service = new AppiumServiceBuilder() .withAppiumJS(new File(
-		  "C:\\Users\\burha\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js"
-		  )) .withIPAddress("127.0.0.1").usingPort(4723).build(); service.start();
-
+		Properties prop = new Properties();
+		FileInputStream fis = new FileInputStream("C:\\Users\\burha\\eclipse-workspace\\AppiumFrameworkDesign\\src\\main\\java\\resources\\data.properties");
+		
+		prop.load(fis);
+		String ipAddress = prop.getProperty("ipAddress");
+		String port = prop.getProperty("port");
+		String deviceName = prop.getProperty("DeviceName");
+		
+		service = startAppiumServer(ipAddress, Integer.parseInt(port));
 
 		// Download App Under Test
 		UiAutomator2Options options = new UiAutomator2Options();
-		//options.setDeviceName("Rebophone");
-		options.setDeviceName("Xiaomi M2006C3MG API 29"); //real device
-		options.setChromedriverExecutable("C:\\Users\\burha\\eclipse-workspace\\AppiumDemo\\chromedriver_win32\\chromedriver.exe");
-		//options.setApp("C:\\Users\\burha\\eclipse-workspace\\AppiumDemo\\ApiDemos-debug.apk");
-		options.setApp("C:\\Users\\burha\\eclipse-workspace\\AppiumDemo\\General-Store.apk");
-
-		driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);
+		options.setDeviceName(deviceName); 
+		options.setChromedriverExecutable("C:\\Users\\burha\\eclipse-workspace\\AppiumFrameworkDesign\\src\\test\\java\\appresources\\chromedriver.exe");
+		options.setApp("C:\\Users\\burha\\eclipse-workspace\\AppiumFrameworkDesign\\src\\test\\java\\appresources\\General-Store.apk");
+		driver = new AndroidDriver(service.getUrl(), options);
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 	}
 
-	public void longPressAction(WebElement ele) {
-		((JavascriptExecutor)driver).executeScript("mobile: longClickGesture",
-				ImmutableMap.of("elementId", ((RemoteWebElement)ele).getId(), "duration",2000));
-	}
-
-
-	public void scrollToEndAction() {
-		boolean canScrollMore;
-		do {
-		 canScrollMore = (Boolean) ((JavascriptExecutor) driver).executeScript("mobile: scrollGesture", ImmutableMap.of(
-			    "left", 100, "top", 100, "width", 200, "height", 200,
-			    "direction", "down",
-			    "percent", 3.0
-			));
-		}
-		while(canScrollMore);
-	}
-
-	public void swipeAction(WebElement ele, String direction) {
-		((JavascriptExecutor) driver).executeScript("mobile: swipeGesture", ImmutableMap.of(
-			    "elementId", ((RemoteWebElement)ele).getId(),
-			    "direction", direction,
-			    "percent", 0.75
-			));
-	}
-
-	public void dragAndDrop(WebElement ele,int x, int y) {
-		((JavascriptExecutor) driver).executeScript("mobile: dragGesture", ImmutableMap.of(
-			    "elementId", ((RemoteWebElement) ele).getId(),
-			    "endX", x,
-			    "endY", y
-			));
-	}
-
-	@AfterClass
+	@AfterClass(alwaysRun=true)
 	public void tearDown() {
 		driver.quit();
 		service.stop();

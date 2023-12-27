@@ -3,13 +3,15 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="testCases.eCommerce_tc_4_Hybrid">
+      <class name="testCases.eCommerce_tc_2">
         <methods>
+          <include name="preSetup"/>
           <include name="ConfigureAppium"/>
-          <include name="validatingCartPriceSum"/>
+          <include name="FillForm_PositiveFlow"/>
           <include name="tearDown"/>
+          <include name="FillForm_ErrorValidation"/>
         </methods>
-      </class> <!-- testCases.eCommerce_tc_4_Hybrid -->
+      </class> <!-- testCases.eCommerce_tc_2 -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

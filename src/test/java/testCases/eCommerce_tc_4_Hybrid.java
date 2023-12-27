@@ -3,7 +3,6 @@ package testCases;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -17,7 +16,7 @@ import testUtils.AndroidBaseTest;
 public class eCommerce_tc_4_Hybrid extends AndroidBaseTest {
 	FormPage formPage;
 
-	@Test(dataProvider = "getData")
+	@Test(dataProvider = "getData", groups= {"Smoke"})
 	public void validatingCartPriceSum(HashMap<String, String> input) throws InterruptedException {
 
 		formPage = new FormPage(driver);
@@ -41,19 +40,18 @@ public class eCommerce_tc_4_Hybrid extends AndroidBaseTest {
 
 		cartPage.aceeptTermsConditions();
 		cartPage.submitOrder();
-
 	}
 
-	@BeforeMethod
-	public void preSetup() {
-		// Screen to homepage
-		formPage.setActivity();
-	}
-
+	  @BeforeMethod (alwaysRun=true) 
+	  public void preSetup()  
+	  { // Screen to homepage
+	  formPage.setActivity(); 
+	  }
+	 
 	@DataProvider
 	public Object[][] getData() throws IOException {
 		List<HashMap<String, String>> data = getJsonData(
-				System.getProperty("user.dir") + "\\src\\test\\java\\testData\\eCommerce.json");
+				"C:\\Users\\burha\\eclipse-workspace\\AppiumFrameworkDesign\\src\\test\\java\\testData\\eCommerce.json");
 		// return new Object[][] { {"Rebo Slatke","male","Argentina"},{"Timo
 		// Kakosik","female","Turkey"} };
 		return new Object[][] { { data.get(0) }, { data.get(1) } };
